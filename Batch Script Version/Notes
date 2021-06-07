@@ -1,0 +1,5 @@
+for %f in (*.webm) do ffmpeg -i "%f" -vn -acodec "%~nf".ogg
+for %v in (*.webm) do ffmpeg -i "%v" "%~nv.mp3"
+for /R %v in (*.webm) do ffmpeg -i "%v" "%~nv.mp3"
+FOR /R %v in (*.webm) DO ffmpeg -i "%~fv" "%~dpnv.mp3" & DEL /S "%~v"
+FOR /R %V in (*.webm) DO SET _test="%~nV" & SET _endbit="%_test:*OP=%" & ECHO _test
