@@ -10,6 +10,7 @@ GOTO :eof
 REM loop all .webm vids in folder + subfolders
 REM For each, call :Rename to neaten filenames and remove duplicate versions. First for the OPs then for the EDs
 REM For each, call :Convert to convert to MP3
+
 SETLOCAL
 	FOR /R %%v IN (".\*.webm") DO (
 		SET "_pth=%%~dpv"
