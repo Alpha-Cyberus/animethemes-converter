@@ -7,60 +7,68 @@ PAUSE
 GOTO :eof
 
 :Main
-REM loop all .webm vids in folder + subfolders
-REM For each, call :Rename to neaten filenames and remove duplicate versions. First for the OPs then for the EDs
-REM For each, call :Convert to convert to MP3
-
 SETLOCAL
 	FOR /R %%v IN (".\*.webm") DO (
 		SET "_pth=%%~dpv"
 		SET "_xtn=%%~xv"
-		CALL :Rename "%%~nv" OP
-		CALL :Convert %%~nv
+
+		CALL :TidyUp "%%~nv"
+		CALL :Convert "%%~nv"
 	)
 ENDLOCAL
 EXIT /B
 
-:Rename
-REM write filename to converter.txt
-REM check if -OP*- exists, if yes then remove the end, rename videofile
-REM check if -OP*v exists, if yes then delete the videofile
+:TidyUp
 SETLOCAL
+	echo "%~1"
 	ECHO %~1 > converter.txt
-	SET "_findme=-%~2.*-"
 
+	SET "_findme=-OP.*-"
 	FOR /F %%i IN ('FINDSTR /R /C:!_findme! converter.txt') DO (
 		IF !ERRORLEVEL! EQU 0 (
-			:: Match
-			CALL :RenameShorten "%%i"
-		) ELSE (
-			:: No match
-			ECHO "no match"
+			CALL :Rename "%%i"
+			EXIT /B
+		)
+	)
+
+	SET "_findme=-ED.*-"
+	FOR /F %%i IN ('FINDSTR /R /C:!_findme! converter.txt') DO (
+		IF !ERRORLEVEL! EQU 0 (
+			CALL :Rename "%%i"
+			EXIT /B
+		)
+	)
+
+	SET "_findme=-OP.*v"
+	FOR /F %%i IN ('FINDSTR /R /C:!_findme! converter.txt') DO (
+		IF !ERRORLEVEL! EQU 0 (
+			EXIT /B
+		)
+	)
+
+	SET "_findme=-ED.*v"
+	FOR /F %%i IN ('FINDSTR /R /C:!_findme! converter.txt') DO (
+		IF !ERRORLEVEL! EQU 0 (
+			EXIT /B
 		)
 	)
 ENDLOCAL
 EXIT /B
 
-:RenameShorten
+:Rename
 SETLOCAL
-	REM match found
-	echo "doesthiswork !_pth! !_xtn!"
-	ECHO "FOUNDME=%~1"
-	ECHO "mypath=%~2"
-	ECHO "extension=%~3"
-
 	set "_base=%~1"
 	set "_left=%_base:-=" & set "_right=%"
-	ECHO base=!_base!
-	ECHO left=!_left!
-	ECHO right=!_right!
 	set "_base=!_base:%_right%=@@@!"
-	ECHO !_base!
-	ECHO base=!_base!
-	set "_base=!_base:-@@@=!"
-	ECHO BASE=!_base!
+	set "_base=%_base:-@@@=%"
+	echo %_base%
 
-	::REN  %~1.%~2 !_base!.%~2
+	:: ren "%_pth%%~1%_xtn%" "%_base%%_xtn%"
+ENDLOCAL
+EXIT /B
+
+:Remove
+SETLOCAL
 
 ENDLOCAL
 EXIT /B
