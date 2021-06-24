@@ -2,10 +2,6 @@ for %f in (*.webm) do ffmpeg -i "%f" -vn -acodec "%~nf".ogg
 for %v in (*.webm) do ffmpeg -i "%v" "%~nv.mp3"
 for /R %v in (*.webm) do ffmpeg -i "%v" "%~nv.mp3"
 FOR /R %v in (*.webm) DO ffmpeg -i "%~fv" "%~dpnv.mp3" & DEL /S "%~v"
-FOR /R %V in (*.webm) DO SET _test="%~nV" & SET _endbit="%_test:*OP=%" & ECHO _test
-
-
-
 
 ----- split string into substrings based on delimiter
 https://www.dostips.com/forum/viewtopic.php?f=3&t=6429
@@ -83,19 +79,3 @@ set "x2=!x:~%i%,-%j%!"
 
 echo "%x:~0,-1%"
 echo "%x2%"
-
-
-
-
-
-:Rename
-setlocal
-
-	set _base=JujutsuKaisen-ED1-NCBD1080
-	set "_left=%_base:-=" & set "_right=%"
-	ECHO base=!_base!
-	ECHO left=!_left!
-	ECHO right=!_right!
-
-endlocal
-EXIT /B
