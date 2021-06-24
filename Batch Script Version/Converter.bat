@@ -1,80 +1,56 @@
-@ECHO off
+@ECHO on
 SETLOCAL EnableDelayedExpansion
 cd C:\Users\petad\Music\Anime
-
 GOTO :Main
-PAUSE
 GOTO :eof
 
 :Main
 SETLOCAL
-	FOR /R %%v IN (".\*.webm") DO (
-		SET "_pth=%%~dpv"
-		SET "_xtn=%%~xv"
-
-		CALL :TidyUp "%%~nv"
-		CALL :Convert "%%~nv"
+	FOR /R %%V IN (".\*.webm") DO (
+		SET "_pth=%%~dpV"
+		SET "_xtn=%%~xV"
+		SET "_fname=%%~nV"
+		CALL :Rename
+		CALL :ConvertClear "%%~nV"
 	)
 ENDLOCAL
-EXIT /B
-
-:TidyUp
-SETLOCAL
-	echo "%~1"
-	ECHO %~1 > converter.txt
-
-	SET "_findme=-OP.*-"
-	FOR /F %%i IN ('FINDSTR /R /C:!_findme! converter.txt') DO (
-		IF !ERRORLEVEL! EQU 0 (
-			CALL :Rename "%%i"
-			EXIT /B
-		)
-	)
-
-	SET "_findme=-ED.*-"
-	FOR /F %%i IN ('FINDSTR /R /C:!_findme! converter.txt') DO (
-		IF !ERRORLEVEL! EQU 0 (
-			CALL :Rename "%%i"
-			EXIT /B
-		)
-	)
-
-	SET "_findme=-OP.*v"
-	FOR /F %%i IN ('FINDSTR /R /C:!_findme! converter.txt') DO (
-		IF !ERRORLEVEL! EQU 0 (
-			EXIT /B
-		)
-	)
-
-	SET "_findme=-ED.*v"
-	FOR /F %%i IN ('FINDSTR /R /C:!_findme! converter.txt') DO (
-		IF !ERRORLEVEL! EQU 0 (
-			EXIT /B
-		)
-	)
-ENDLOCAL
+PAUSE
 EXIT /B
 
 :Rename
-SETLOCAL
-	set "_base=%~1"
-	set "_left=%_base:-=" & set "_right=%"
-	set "_base=!_base:%_right%=@@@!"
-	set "_base=%_base:-@@@=%"
-	echo %_base%
+	ECHO %_fname% > converter.txt
 
-	:: ren "%_pth%%~1%_xtn%" "%_base%%_xtn%"
-ENDLOCAL
+	SET "_findme=-.*-"
+	FOR /F %%I IN ('FINDSTR /R /C:!_findme! converter.txt') DO (
+		IF !ERRORLEVEL! EQU 0 (
+			CALL :Newfname- %_fname%
+			EXIT /B
+		)
+	)
+
+	SET "_findme=-.*v"
+	FOR /F %%I IN ('FINDSTR /R /C:!_findme! converter.txt') DO (
+		IF !ERRORLEVEL! EQU 0 (
+			CALL :Newfnamev %_fname%
+			EXIT /B
+		)
+	)
 EXIT /B
 
-:Remove
-SETLOCAL
-
-ENDLOCAL
+:Newfname-
+	set "_left=%_fname:-=" & set "_right=%"
+	set "_fname=!_fname:%_right%=@@@!"
+	set "_fname=%_fname:-@@@=%"
 EXIT /B
 
-:Convert
-SETLOCAL
+:Newfnamev
+	set "_left=%_fname:-=" & set "_right=%"
+	set "_rleft=%_right:v=" & set "_rright=%"
+	set "_fname=!_left! !_rleft!"
+	echo !_fname!
+EXIT /B
 
-ENDLOCAL
+:ConvertClear
+	ffmpeg -n -i "%_pth%%~1%_xtn%" "%_pth%%_fname%.mp3"
+	DEL "%_pth%%~1%_xtn%"
 EXIT /B
