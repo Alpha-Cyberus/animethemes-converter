@@ -28,7 +28,7 @@ EXIT /B
 	ECHO %_fname% > converter.txt
 	FOR /F %%I IN ('FINDSTR /R "OP[0-9]*- ED[0-9]*-" converter.txt') DO (
 		IF !ERRORLEVEL! EQU 0 (
-			CALL :Newfname1 "%~1"
+			CALL :Newfname- "%~1"
 		)
 	)
 	FOR /F %%I IN ('FINDSTR /R "OP[0-9]*v" converter.txt') DO (
@@ -55,7 +55,7 @@ EXIT /B
 	)
 EXIT /B
 
-:Newfname1
+:Newfname-
 	ECHO "Do Case 1"
 	SET "_left=%_fname:-=" & set "_right=%"
 	SET "_fname=!_fname:%_right%=@@@!"
