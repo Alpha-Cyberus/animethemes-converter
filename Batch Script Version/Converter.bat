@@ -21,7 +21,6 @@ SETLOCAL
 	)
 		DEL "converter.txt"
 ENDLOCAL
-PAUSE
 EXIT /B
 
 :Rename
@@ -56,7 +55,6 @@ EXIT /B
 EXIT /B
 
 :Newfname-
-	ECHO "Do Case 1"
 	SET "_left=%_fname:-=" & set "_right=%"
 	SET "_fname=!_fname:%_right%=@@@!"
 	SET "_fname=%_fname:-@@@=%"
@@ -64,7 +62,6 @@ EXIT /B
 EXIT /B
 
 :Newfnamev
- ECHO "Do Case 2:%~2"
 	SET "_fname=!_fname:%~2=@@@!"
 	SET "_left=%_fname:@@@=" & set "_right=%"
 	SET "_rleft=%_right:v=" & set "_rright=%"
@@ -73,7 +70,6 @@ EXIT /B
 EXIT /B
 
 :NewfnamespOP
-	ECHO "Do Case 3"
 	SET "_fnamesp=%_fname:-OP= OP%"
 	IF EXIST "%_pth%%_fnamesp%%_xtn%" (
 		DEL "%_pth%%_fname%%_xtn%"
@@ -83,7 +79,6 @@ EXIT /B
 EXIT /B
 
 :NewfnamespED
-	ECHO "Do Case 3"
 	SET "_fnamesp=%_fname:-ED= ED%"
 	IF EXIST "%_pth%%_fnamesp%%_xtn%" (
 		DEL "%_pth%%_fname%%_xtn%"
