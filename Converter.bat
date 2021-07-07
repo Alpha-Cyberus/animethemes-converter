@@ -45,6 +45,7 @@ SETLOCAL
 	IF /I %M%==E EXIT /B
 EXIT /B
 
+:: Loop through every .webm video file in folder and subfolders. Print dir/name of each one to terminal.
 :Scanfiles
 SETLOCAL
 	ECHO --- [35mThe following files have been detected:[0m ---
