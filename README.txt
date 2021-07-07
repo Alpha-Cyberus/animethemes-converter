@@ -1,5 +1,5 @@
 # animethemes-converter
-Simple script which converts animethemes.moe videos into mp3s. It also formats the filenames to be a bit prettier and more consistent and deletes the videos after conversion.
+Simple script which converts .webm videos into mp3s. It also formats the filenames to be a bit prettier and more consistent and deletes the videos after conversion.
 
 How to use:
 1. Go to https://themes.moe/ and download videos.
