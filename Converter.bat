@@ -14,6 +14,7 @@ GOTO :eof
 	PAUSE
 EXIT /B
 
+:: Simple navigation based on keyboard input
 :Menu
 SETLOCAL
 	ECHO.
