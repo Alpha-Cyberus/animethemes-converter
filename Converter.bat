@@ -4,10 +4,10 @@ GOTO :Main
 GOTO :eof
 
 :Main
-	ECHO [1m--------------------------------------------[0m
+	ECHO [1m---------------------------------------------[0m
 	ECHO [35m        Animethemes Video Converter
 	ECHO            v1.0 by Alpha Cyberus[0m
-	ECHO [1m--------------------------------------------[0m
+	ECHO [1m---------------------------------------------[0m
 	CALL :Menu
 	ECHO Have feedback or ideas for other fun little projects?
 	ECHO Contact me at [35mhttps://github.com/Alpha-Cyberus/[0m
@@ -76,7 +76,7 @@ SETLOCAL
 		CALL :ConvertClear "%%~nV"
 	)
 	ECHO.
-	ECHO [1m--------------------------------------------
+	ECHO [1m---------------------------------------------
 	ECHO [92mConversion complete[0m
 	IF EXIST "converter.txt" (
 		DEL "converter.txt"
