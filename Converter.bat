@@ -48,12 +48,8 @@ SETLOCAL
 	GOTO :Menu
 EXIT /B
 
-<<<<<<< HEAD
 :: Scan current folder and all subfolders for any .webm (all videos from themes.moe are in this container), print them to screen with path and filename so user can review them.
 :: Confirmation prompt with different key from previous to continue with process.
-=======
-:: Loop through every .webm video file in folder and subfolders. Print dir/name of each one to terminal.
->>>>>>> e02ef779621745b464833bfa119780f8774094f1
 :Scanfiles
 SETLOCAL
 	ECHO --- [35mThe following files have been detected:[0m ---
