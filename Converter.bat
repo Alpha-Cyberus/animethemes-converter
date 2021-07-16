@@ -1,5 +1,6 @@
 @ECHO off
 SETLOCAL EnableDelayedExpansion
+
 GOTO :Main
 GOTO :eof
 
@@ -24,12 +25,13 @@ SETLOCAL
 	ECHO [94mH[0m	: Help
 	ECHO [91mE[0m	: Exit program
 	ECHO.
-	:Wronginput
-	SET /P M=
-	IF /I %M%==S ENDLOCAL & GOTO :Scanfiles
-	IF /I %M%==H ENDLOCAL & GOTO :Menuhelp
-	IF /I %M%==E EXIT /B
-	GOTO :Wronginput
+
+	:Menu.Wronginput
+	SET /P _input=
+	IF /I %_input%==S ENDLOCAL & GOTO :Scanfiles
+	IF /I %_input%==H ENDLOCAL & GOTO :Menuhelp
+	IF /I %_input%==E EXIT /B
+	GOTO :Menu.Wronginput
 EXIT /B
 
 :: Same as Readme file, then return to menu.
@@ -51,26 +53,33 @@ EXIT /B
 :: Scan current folder and all subfolders for any .webm (all videos from themes.moe are in this container), print them to screen with path and filename so user can review them.
 :: Confirmation prompt with different key from previous to continue with process.
 :Scanfiles
-SETLOCAL
+	SET /A "_total=0"
 	ECHO --- [35mThe following files have been detected:[0m ---
 	FOR /R %%V IN (".\*.webm") DO (
 		ECHO %%~pnV
+		SET /A "_total=_total+1"
 	)
+	ECHO [92mTotal videos: [4m%_total%[0m
 	ECHO.
 	ECHO [92mC[0m	: Convert to mp3s
-	ECHO Note: The videos will be deleted after conversion. [4mThis process cannot be reversed.[0m
+	ECHO Note: The video files will be deleted after conversion. [4mThis process cannot be reversed.[0m
 	ECHO [91mE[0m	: Exit program
 	ECHO.
-	SET /P M=
-	IF /I %M%==C ENDLOCAL & GOTO :Processfiles
-	IF /I %M%==E EXIT /B
+	:Scan.Wronginput
+		SETLOCAL
+		SET /P _input=
+		IF /I %_input%==C ENDLOCAL & GOTO :Processfiles
+		IF /I %_input%==E ENDLOCAL & EXIT /B
+	GOTO :Scan.Wronginput
 EXIT /B
 
 :: Loop through all videos in dir and subdirectories twice.
 :: First loop- rename files then to convert them.
 :: Clear up utility files and feedback to user.
+:: Uses timer.bat to track and display how long the function takes.
 :Processfiles
 SETLOCAL
+	CALL timer.bat start
 	:: Store path, filename, extension for easy use in sub-functions.
 	:: Pass filename twice, as variable and function parameter so one can be changed and one can be a reference.
 	FOR /R %%V IN (".\*.webm") DO (
@@ -80,15 +89,18 @@ SETLOCAL
 		CALL :Rename "%%~nV"
 	)
 	:: Pass path, filename, extension directly as parameters into function.
+	SET /A "_counter=0"
 	FOR /R %%V IN (".\*.webm") DO (
 		CALL :ConvertClear "%%~dpV" "%%~nV" "%%~xV"
+		SET /A "_counter=!_counter!+1"
+		ECHO %%~nV Converted. [94mProgress: !_counter! / %_total%[0m
 	)
 	IF EXIST "converter.txt" (
 		DEL "converter.txt"
 	)
 	ECHO.
+	CALL timer.bat stop
 	ECHO [1m---------------------------------------------
-	ECHO [92mConversion complete[0m
 ENDLOCAL
 EXIT /B
 
@@ -165,8 +177,8 @@ EXIT /B
 
 :: Use FFMPEG for conversion. Parameters passed in when function was called. Delete video when done.
 :ConvertClear
-	ffmpeg -i "%~1%~2%~3" -codec:a libmp3lame -qscale:a 2 "%~1%~2.mp3"
-	DEL "%~1%~2%~3"
+	ffmpeg -hide_banner -loglevel warning -i "%~1%~2%~3" -codec:a libmp3lame -qscale:a 2 -metadata artist="Various" -metadata album="Anime Themes" -metadata genre="Anime" "%~1%~2.mp3"
+	REM DEL "%~1%~2%~3"
 REM FFMPEG used to encode MP3s. Instructions: https://trac.ffmpeg.org/wiki/Encode/MP3
 REM MP3 output set to VBR ~190kbs as per recommended settings: https://wiki.hydrogenaud.io/index.php?title=LAME#Recommended_encoder_settings
 EXIT /B
