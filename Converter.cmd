@@ -8,7 +8,7 @@ GOTO :eof
 :Main
 	ECHO [1m---------------------------------------------[0m
 	ECHO [35m        Animethemes Video Converter
-	ECHO            v1.0 by Alpha Cyberus[0m
+	ECHO            v1.1.1 by Alpha Cyberus[0m
 	ECHO [1m---------------------------------------------[0m
 	CALL :Menu
 	ECHO Have feedback or ideas for other fun little projects?
