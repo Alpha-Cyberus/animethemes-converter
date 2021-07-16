@@ -40,10 +40,10 @@ SETLOCAL
 	ECHO ---[35m How to use Animethemes Converter [0m---
 	ECHO.
 	ECHO [94m1[0m. Install FFMPEG (essential plugin for video to mp3 conversion).
-	ECHO    Recommended version for Windows: ffmpeg-release-essentials.7z https://www.gyan.dev/ffmpeg/builds/
-	ECHO [94m2[0m. Go to https://themes.moe/ and download videos.
+	ECHO    Instructions for download and install: https://youtu.be/r1AtmY-RMyQ?t=42.
+	ECHO [94m2[0m. Go to https://themes.moe/ or www.reddit.com/r/AnimeThemes/wiki/index#wiki_themes to find and download videos.
 	ECHO [94m3[0m. Put them all in one folder or sorted into subfolders.
-	ECHO [94m4[0m. Put converter.bat into that folder and run it.
+	ECHO [94m4[0m. Put app files into that folder and run it.
 	ECHO [94m5[0m. Scan for videos then convert to mp3s.
 	ECHO    Note: The videos will be deleted after conversion.
 	ECHO [94m6[0m. Enjoy your music!
@@ -79,7 +79,7 @@ EXIT /B
 :: Uses timer.bat to track and display how long the function takes.
 :Processfiles
 SETLOCAL
-	CALL timer.bat start
+	CALL Timer.cmd start
 	:: Store path, filename, extension for easy use in sub-functions.
 	:: Pass filename twice, as variable and function parameter so one can be changed and one can be a reference.
 	FOR /R %%V IN (".\*.webm") DO (
@@ -99,7 +99,7 @@ SETLOCAL
 		DEL "converter.txt"
 	)
 	ECHO.
-	CALL timer.bat stop
+	CALL Timer.cmd stop
 	ECHO [1m---------------------------------------------
 ENDLOCAL
 EXIT /B
@@ -178,7 +178,7 @@ EXIT /B
 :: Use FFMPEG for conversion. Parameters passed in when function was called. Delete video when done.
 :ConvertClear
 	ffmpeg -hide_banner -loglevel warning -i "%~1%~2%~3" -codec:a libmp3lame -qscale:a 2 -metadata artist="Various" -metadata album="Anime Themes" -metadata genre="Anime" "%~1%~2.mp3"
-	REM DEL "%~1%~2%~3"
+	DEL "%~1%~2%~3"
 REM FFMPEG used to encode MP3s. Instructions: https://trac.ffmpeg.org/wiki/Encode/MP3
 REM MP3 output set to VBR ~190kbs as per recommended settings: https://wiki.hydrogenaud.io/index.php?title=LAME#Recommended_encoder_settings
 EXIT /B
