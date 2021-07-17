@@ -6,7 +6,7 @@ How to use:
    Instructions for download and install: https://youtu.be/r1AtmY-RMyQ?t=42.
 2. Go to https://themes.moe/ or www.reddit.com/r/AnimeThemes/wiki/index#wiki_themes to find and download videos.
 3. Put them all in one folder or sorted into subfolders.
-4. Put app files into that folder and run it.
+4. Put app files into that folder and run Converter.cmd.
 5. Scan for videos then convert to mp3s.
    Note: The videos will be deleted after conversion.
 6. Enjoy your music!
