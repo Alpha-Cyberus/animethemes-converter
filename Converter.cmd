@@ -54,7 +54,7 @@ EXIT /B
 :: Confirmation prompt with different key from previous to continue with process.
 :Scanfiles
 	SET /A "_total=0"
-	ECHO --- [92mThe following files have been detected:[0m ---
+	ECHO [92mThe following files have been detected:[0m
 	FOR /R %%V IN (".\*.webm") DO (
 		ECHO %%~pnV
 		SET /A "_total=_total+1"
@@ -62,8 +62,8 @@ EXIT /B
 	ECHO [92mTotal videos: %_total%[0m
 	ECHO.
 	ECHO [92mC[0m	: Convert to mp3s
-	ECHO Note: Files with suffixes will be renamed to be more consistent. 
-	ECHO The video files will be deleted after conversion. [4mThis process cannot be reversed.[0m
+	ECHO  	  Note: Files with suffixes will be renamed to be more consistent.
+	ECHO  	  The video files will be deleted after conversion. This process cannot be reversed.
 	ECHO [91mE[0m	: Exit program
 	ECHO.
 	:Scan.Wronginput
