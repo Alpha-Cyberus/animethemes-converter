@@ -8,7 +8,7 @@ GOTO :eof
 :Main
 	ECHO [1m---------------------------------------------[0m
 	ECHO [35m        Animethemes Video Converter
-	ECHO            v1.1.1 by Alpha Cyberus[0m
+	ECHO            v1.1.3 by Alpha Cyberus[0m
 	ECHO [1m---------------------------------------------[0m
 	CALL :Menu
 	ECHO Have feedback or ideas for other fun little projects?
@@ -54,7 +54,7 @@ EXIT /B
 :: Confirmation prompt with different key from previous to continue with process.
 :Scanfiles
 	SET /A "_total=0"
-	ECHO --- [35mThe following files have been detected:[0m ---
+	ECHO --- [92mThe following files have been detected:[0m ---
 	FOR /R %%V IN (".\*.webm") DO (
 		ECHO %%~pnV
 		SET /A "_total=_total+1"
@@ -62,7 +62,7 @@ EXIT /B
 	ECHO [92mTotal videos: [4m%_total%[0m
 	ECHO.
 	ECHO [92mC[0m	: Convert to mp3s
-	ECHO Note: The video files will be deleted after conversion. [4mThis process cannot be reversed.[0m
+	ECHO Note: Files with suffixes will be renamed to be more consistent. The video files will be deleted after conversion. [4mThis process cannot be reversed.[0m
 	ECHO [91mE[0m	: Exit program
 	ECHO.
 	:Scan.Wronginput
@@ -80,7 +80,7 @@ EXIT /B
 :Processfiles
 SETLOCAL
 	CALL Timer.cmd start
-	ECHO [94mRenaming videos...[0m
+	ECHO [92mRenaming videos...[0m
 	:: Store path, filename, extension for easy use in sub-functions.
 	:: Pass filename twice, as variable and function parameter so one can be changed and one can be a reference.
 	FOR /R %%V IN (".\*.webm") DO (
@@ -89,7 +89,7 @@ SETLOCAL
 		SET "_fname=%%~nV"
 		CALL :Rename "%%~nV"
 	)
-	ECHO [94mVideos renamed[0m
+	ECHO [92mVideos renamed. Beginning conversion process.[0m
 	:: Pass path, filename, extension directly as parameters into function.
 	SET /A "_counter=0"
 	FOR /R %%V IN (".\*.webm") DO (
