@@ -59,10 +59,11 @@ EXIT /B
 		ECHO %%~pnV
 		SET /A "_total=_total+1"
 	)
-	ECHO [92mTotal videos: [4m%_total%[0m
+	ECHO [92mTotal videos: %_total%[0m
 	ECHO.
 	ECHO [92mC[0m	: Convert to mp3s
-	ECHO Note: Files with suffixes will be renamed to be more consistent. The video files will be deleted after conversion. [4mThis process cannot be reversed.[0m
+	ECHO Note: Files with suffixes will be renamed to be more consistent. 
+	ECHO The video files will be deleted after conversion. [4mThis process cannot be reversed.[0m
 	ECHO [91mE[0m	: Exit program
 	ECHO.
 	:Scan.Wronginput
