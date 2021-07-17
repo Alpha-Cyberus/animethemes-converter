@@ -1,4 +1,5 @@
 :: Modified version of script from https://ss64.com/nt/syntax-timer.html
+:: AnimeThemes Converter v1.1.2t
 @echo off
 setlocal
 
@@ -88,16 +89,7 @@ goto :EOF
 	)
  :: --------------- NEW OUTPUT END
 
- ::set hh=0%hh%
- ::set mm=0%mm%
- ::set ss=0%ss%
- ::set hs=0%hs%
-
- endlocal ::& set diff.time=%hh:~-2%:%mm:~-2%:%ss:~-2%.%hs:~-2%
-
- :: echo %diff.time.code% hundredths of a second
- :: echo %diff.time%
-
+ endlocal
  goto :EOF
 
 :calc.time.code
