@@ -77,14 +77,14 @@ goto :EOF
  set /a hh=diff.time.code
 
  :: --------------- NEW OUTPUT START
-	IF %hh% GEQ 1 (
- 		ECHO [92mProcess complete. %_total% videos converted in %hh% hours, %mm% minutes, %ss%.%hs% seconds[0m
-	) ELSE (
-		IF %mm% GEQ 1 (
-	 		ECHO [92mProcess complete. %_total% videos converted in %mm% minutes, %ss%.%hs% seconds[0m
+	IF %hh% LSS 1 (
+		IF %mm% LSS 1 (
+		 	ECHO [92mProcess complete. %_total% videos converted in %ss%.%hs% seconds[0m
 		) ELSE (
-			ECHO [92mProcess complete. %_total% videos converted in %ss%.%hs% seconds[0m
+			ECHO [92mProcess complete. %_total% videos converted in %mm% minutes, %ss%.%hs% seconds[0m
 		)
+	) ELSE (
+		ECHO [92mProcess complete. %_total% videos converted in %hh% hours, %mm% minutes, %ss%.%hs% seconds[0m
 	)
  :: --------------- NEW OUTPUT END
 

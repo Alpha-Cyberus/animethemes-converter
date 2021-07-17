@@ -80,6 +80,7 @@ EXIT /B
 :Processfiles
 SETLOCAL
 	CALL Timer.cmd start
+	ECHO [94mRenaming videos...[0m
 	:: Store path, filename, extension for easy use in sub-functions.
 	:: Pass filename twice, as variable and function parameter so one can be changed and one can be a reference.
 	FOR /R %%V IN (".\*.webm") DO (
@@ -88,6 +89,7 @@ SETLOCAL
 		SET "_fname=%%~nV"
 		CALL :Rename "%%~nV"
 	)
+	ECHO [94mVideos renamed[0m
 	:: Pass path, filename, extension directly as parameters into function.
 	SET /A "_counter=0"
 	FOR /R %%V IN (".\*.webm") DO (
@@ -177,7 +179,7 @@ EXIT /B
 
 :: Use FFMPEG for conversion. Parameters passed in when function was called. Delete video when done.
 :ConvertClear
-	ffmpeg -hide_banner -loglevel warning -i "%~1%~2%~3" -codec:a libmp3lame -qscale:a 2 -metadata artist="Various" -metadata album="Anime Themes" -metadata genre="Anime" "%~1%~2.mp3"
+	ffmpeg -hide_banner -loglevel error -i "%~1%~2%~3" -codec:a libmp3lame -qscale:a 2 -metadata artist="Various" -metadata album="Anime Themes" -metadata genre="Anime" "%~1%~2.mp3"
 	DEL "%~1%~2%~3"
 REM FFMPEG used to encode MP3s. Instructions: https://trac.ffmpeg.org/wiki/Encode/MP3
 REM MP3 output set to VBR ~190kbs as per recommended settings: https://wiki.hydrogenaud.io/index.php?title=LAME#Recommended_encoder_settings
